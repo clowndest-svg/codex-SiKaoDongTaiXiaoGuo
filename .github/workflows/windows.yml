@@ -1,0 +1,31 @@
+name: Windows build and verification
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build and offline verification
+        shell: powershell
+        run: .\scripts\verify.ps1
+      - name: Package
+        shell: powershell
+        run: .\scripts\package.ps1 -SkipBuild
+      - name: Upload package and verification artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: DragonCompanion-windows-x64
+          path: |
+            out/packages/*.zip
+            out/verification-summary.json
+            out/renders/
+          if-no-files-found: error

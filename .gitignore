@@ -1,0 +1,14 @@
+# Built locally or by CI
+/DragonDisplay.exe
+/out/
+/runtime/
+/backups/
+/research/
+/verification*/
+*.zip
+*.log
+*.tmp
+*.user
+*.pdb
+.vs/
+.DS_Store
